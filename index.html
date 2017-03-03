@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+
+    <style>
+        .w-dropdown {
+            position: relative;
+        }
+
+        .b-total {
+            font-weight:bold;
+            text-transform: uppercase;
+        }
+
+        .b-dropdown__text {
+            position: absolute;
+            border:1px solid red;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            max-width: 160px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="w-dropdown">
+            <label>
+                <input type="checkbox" v-bind:checked="secret" v-on:click="secret = !secret">Show message
+            </label>
+
+            <div class="b-dropdown__text" v-if="secret">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque exercitationem explicabo hic illum ipsam natus nihil odio, veritatis? Debitis eos provident repellat temporibus voluptatum. Atque doloribus odio repellendus sunt ullam!
+            </div>
+        </div>
+
+        <input type="text" v-model="message">
+
+        <button v-on:click="addTask">add task</button>
+        <button v-on:click="reverseList">reverse task</button>
+
+        <ul>
+            <li v-for="task in tasks">
+                {{task.text}}
+
+                <button v-on:click="removeTask">delete</button>
+            </li>
+
+            <li class="b-total">total: {{tasks.length}}</li>
+        </ul>
+    </div><!--app-->
+
+
+
+    <script src="https://unpkg.com/vue"></script>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: 'Name lol',
+                secret: false,
+                message: '',
+                tasks: [
+                    { text: 'ddasdasdas' },
+                    { text: 'lorem' },
+                    { text: '212112' }
+                ]
+            },
+            methods: {
+                addTask: function () {
+                    if(!this.message) return;
+
+                    this.tasks.push({text: this.message});
+                    this.message = '';
+                },
+                reverseList: function () {
+                    this.tasks.reverse();
+                },
+                removeTask: function (e) {
+                    console.log(e);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
