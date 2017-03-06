@@ -46,25 +46,36 @@
         <button v-on:click="reverseList">reverse task</button>
 
         <ul>
-            <li v-for="task in tasks">
+            <li v-for="(task, index) in tasks">
                 {{task.text}}
-
-                <button v-on:click="removeTask">delete</button>
+                <button v-on:click="removeTask(index)">delete</button>
             </li>
+
+            <!--<tasks v-for="task in tasks" :tasks="task"></tasks>-->
 
             <li class="b-total">total: {{tasks.length}}</li>
         </ul>
+
+        <textarea v-model.number="notname"></textarea>
+
+        {{notname}}
+
     </div><!--app-->
-
-
 
     <script src="https://unpkg.com/vue"></script>
 
     <script>
+        Vue.component('tasks', {
+            props: ['tasks'],
+            template: '<li>{{ tasks.text }}</li>'
+//            templateUrl: 'list.tmp.html'
+        });
+
         var app = new Vue({
             el: '#app',
             data: {
                 name: 'Name lol',
+                notname: '',
                 secret: false,
                 message: '',
                 tasks: [
@@ -83,11 +94,12 @@
                 reverseList: function () {
                     this.tasks.reverse();
                 },
-                removeTask: function () {
-
+                removeTask: function (index) {
+                    console.log(index);
+                    this.tasks.splice(index, 1);
                 }
             }
-        })
+        });
     </script>
 </body>
 </html>
