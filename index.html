@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,58 +8,40 @@
     <title>Vue</title>
 
     <style>
-        .w-dropdown {
-            position: relative;
-        }
-
         .b-total {
             font-weight:bold;
             text-transform: uppercase;
         }
-
-        .b-dropdown__text {
-            position: absolute;
-            border:1px solid red;
-            top: 100%;
-            left: 0;
-            background-color: #fff;
-            max-width: 160px;
-            width: 100%;
-        }
     </style>
+
 </head>
 <body>
     <div id="app">
-        <div class="w-dropdown">
-            <label>
-                <input type="checkbox" v-bind:checked="secret" v-on:click="secret = !secret">Show message
-            </label>
-
-            <div class="b-dropdown__text" v-if="secret">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque exercitationem explicabo hic illum ipsam natus nihil odio, veritatis? Debitis eos provident repellat temporibus voluptatum. Atque doloribus odio repellendus sunt ullam!
-            </div>
-        </div>
-
         <input type="text" v-model="message">
-
-        <button v-on:click="addTask">add task</button>
-        <button v-on:click="reverseList">reverse task</button>
+        <button v-on:click="addTask()">add task</button>
 
         <ul>
             <li v-for="(task, index) in tasks">
-                {{task.text}}
+                {{ task.text }}
                 <button v-on:click="removeTask(index)">delete</button>
             </li>
 
-            <!--<tasks v-for="task in tasks" :tasks="task"></tasks>-->
+            <!--<template v-for="(task, index) in tasks">-->
+                <!--<li>{{ task.text }}</li>-->
+                <!--<li class="divider"></li>-->
+            <!--</template>-->
 
-            <li class="b-total">total: {{tasks.length}}</li>
+            <!--<tasks v-for="task in tasks" :tasks="task"></tasks>-->
         </ul>
 
-        <textarea v-model.number="notname"></textarea>
+        <div class="b-total">
+            total: {{tasks.length}}
+        </div>
 
-        {{notname}}
-
+        <input type="text" v-model="original">
+        <div>
+            {{ compute }}
+        </div>
     </div><!--app-->
 
     <script src="https://unpkg.com/vue"></script>
@@ -68,15 +50,12 @@
         Vue.component('tasks', {
             props: ['tasks'],
             template: '<li>{{ tasks.text }}</li>'
-//            templateUrl: 'list.tmp.html'
         });
 
         var app = new Vue({
             el: '#app',
             data: {
-                name: 'Name lol',
-                notname: '',
-                secret: false,
+                original: '',
                 message: '',
                 tasks: [
                     { text: 'ddasdasdas' },
@@ -91,12 +70,18 @@
                     this.tasks.push({text: this.message});
                     this.message = '';
                 },
-                reverseList: function () {
-                    this.tasks.reverse();
-                },
                 removeTask: function (index) {
-                    console.log(index);
                     this.tasks.splice(index, 1);
+                }
+            },
+            filters: {
+                upperCased: function (value) {
+                    return value.toUpperCase();
+                }
+            },
+            computed: {
+                compute: function () {
+                    return this.original.split(',');
                 }
             }
         });
