@@ -18,7 +18,7 @@
 <body>
     <div id="app">
         <input type="text" v-model="message">
-        <button id="delete" v-on:click.native="addTask()">add task</button>
+        <button id="delete" v-on:click="addTask()">add task</button>
 
         <ul>
             <li v-for="(task, index) in tasks">
@@ -47,14 +47,6 @@
     <script src="https://unpkg.com/vue"></script>
 
     <script>
-        var button = document.getElementById('delete');
-
-        function addTask() {
-            alert(1);
-        }
-
-        button.addEventListener(addTask, false);
-
         Vue.component('tasks', {
             props: ['tasks'],
             template: '<li>{{ tasks.text }}</li>'
@@ -89,10 +81,13 @@
             },
             computed: {
                 compute: function () {
-                    return this.original.split(',');
+                    return this.original.split(' ');
                 }
             }
         });
+
+//        20600001981228 казанский переулок
+//        отделение 24 ентузиастов 3
     </script>
 </body>
 </html>
